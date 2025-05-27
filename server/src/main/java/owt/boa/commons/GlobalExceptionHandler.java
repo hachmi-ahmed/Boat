@@ -32,26 +32,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         String key = this.getValidationCodeFromValidationMessage(ex.getMessage());
         return ApiResponseBuilder.build(
                 HttpStatus.BAD_REQUEST, null, ex.getMessage(), key);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFound(UserNotFoundException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleUserNotFound(UserNotFoundException ex) {
         return ApiResponseBuilder.build(
                 HttpStatus.NOT_FOUND, null, ex.getMessage(), "USER_AUTH.LOGIN_USER_NOT_FOUND");
     }
 
     @ExceptionHandler(EmailAlreadyTakenException.class)
-    public ResponseEntity<?> handleUserEmailTaken(EmailAlreadyTakenException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleUserEmailTaken(EmailAlreadyTakenException ex) {
         return ApiResponseBuilder.build(
                 HttpStatus.BAD_REQUEST, null, ex.getMessage(), "USER_AUTH.REGISTER_EMAIL_TAKEN");
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<?> handleAuthFailure(AuthenticationException ex) {
+    public ResponseEntity<ApiResponse<Object>> handleAuthFailure(AuthenticationException ex) {
         return ApiResponseBuilder.build(
                 HttpStatus.UNAUTHORIZED, null, ex.getMessage(), "USER_AUTH.LOGIN_FAILED");
     }

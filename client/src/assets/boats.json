@@ -1,0 +1,254 @@
+[
+  {
+    "id": 1,
+    "name": "Ocean Majesty",
+    "description": "A 120-foot luxury motor yacht with panoramic windows and jacuzzi deck",
+    "image_url": "assets/img/pexels-blitzboy-1106423.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Wind Dancer",
+    "description": "45-foot sailing catamaran with dual hull design for stability",
+    "image_url": "assets/img/pexels-frans-van-heerden-201846-625418.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Tuna Hunter",
+    "description": "Commercial fishing vessel with advanced sonar and storage capacity",
+    "image_url": "assets/img/pexels-goumbik-296278.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Coastal Cruiser",
+    "description": "Compact 28-foot cabin cruiser perfect for weekend adventures",
+    "image_url": "assets/img/pexels-hakantahmaz-2536643.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Neptune's Fury",
+    "description": "High-performance speedboat with twin 300hp outboard engines",
+    "image_url": "assets/img/pexels-korhan-erdol-1123380-2344572.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Island Hopper",
+    "description": "Shallow-draft skiff designed for Caribbean island exploration",
+    "image_url": "assets/img/pexels-lecreusois-240561.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Poseidon's Trident",
+    "description": "Luxury expedition yacht with submarine garage",
+    "image_url": "assets/img/pexels-mali-42092.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Marlin Master",
+    "description": "Deep sea sportfishing boat with fighting chair and livewell",
+    "image_url": "assets/img/pexels-md-towhidul-islam-175863-3013018.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Solar Sailor",
+    "description": "Eco-friendly hybrid vessel with solar panel array",
+    "image_url": "assets/img/pexels-mikebirdy-996328.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Arctic Explorer",
+    "description": "Ice-breaking research vessel with reinforced hull",
+    "image_url": "assets/img/pexels-minan1398-715567.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Bay Breeze",
+    "description": "Classic wooden runabout with mahogany detailing",
+    "image_url": "assets/img/pexels-nuno-obey-34504-128302.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Cargo King",
+    "description": "Industrial barge with 500-ton freight capacity",
+    "image_url": "assets/img/pexels-photoklickr-78359-244517.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Dragonfly",
+    "description": "Ultra-light racing dinghy with carbon fiber mast",
+    "image_url": "assets/img/pexels-pixabay-33545.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Emerald Princess",
+    "description": "Three-deck party yacht with LED lighting system",
+    "image_url": "assets/img/pexels-pixabay-33689.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Fire Rescue 1",
+    "description": "Coast guard approved firefighting vessel with water cannons",
+    "image_url": "assets/img/pexels-pixabay-86699.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Ghost Rider",
+    "description": "Stealth military patrol boat with radar-absorbing materials",
+    "image_url": "assets/img/pexels-pixabay-261516.jpg"
+  },
+  {
+    "id": 17,
+    "name": "Harbor Master",
+    "description": "Port authority inspection boat with drone launchpad",
+    "image_url": "assets/img/pexels-pixabay-271681.jpg"
+  },
+  {
+    "id": 18,
+    "name": "Ironclad",
+    "description": "Armored cash transport vessel with biometric security",
+    "image_url": "assets/img/pexels-rafa-de-21730-1471724.jpg"
+  },
+  {
+    "id": 19,
+    "name": "Jolly Roger",
+    "description": "Pirate-themed tour boat with replica cannon displays",
+    "image_url": "assets/img/pexels-roman-odintsov-6585322.jpg"
+  },
+  {
+    "id": 20,
+    "name": "Kraken",
+    "description": "Experimental wave-piercing trimaran design",
+    "image_url": "assets/img/pexels-sevenstormphotography-575890.jpg"
+  },
+  {
+    "id": 21,
+    "name": "Lazy Days",
+    "description": "Houseboat with full kitchen and rooftop terrace",
+    "image_url": "assets/img/pexels-mali-42092.jpg"
+  },
+  {
+    "id": 22,
+    "name": "Mermaid Song",
+    "description": "Glass-bottomed tour boat for coral reef viewing",
+    "image_url": "assets/img/pexels-vincent-gerbouin-445991-1167023.jpg"
+  },
+  {
+    "id": 23,
+    "name": "Nautical Dream",
+    "description": "Bespoke luxury yacht with helicopter landing pad",
+    "image_url": "assets/img/pexels-sevenstormphotography-575890.jpg"
+  },
+  {
+    "id": 24,
+    "name": "Oceanographer",
+    "description": "Research vessel with wet labs and submersible hangar",
+    "image_url": "assets/img/pexels-roman-odintsov-6585322.jpg"
+  },
+  {
+    "id": 25,
+    "name": "Pacific Queen",
+    "description": "Vintage 1950s cruise ship restored to original glory",
+    "image_url": "assets/img/pexels-rafa-de-21730-1471724.jpg"
+  },
+  {
+    "id": 26,
+    "name": "Quick Silver",
+    "description": "Aluminum-hulled racing boat with hydrofoil technology",
+    "image_url": "assets/img/pexels-pixabay-271681.jpg"
+  },
+  {
+    "id": 27,
+    "name": "River Rat",
+    "description": "Flat-bottomed jon boat for inland waterways",
+    "image_url": "assets/img/pexels-pixabay-261516.jpg"
+  },
+  {
+    "id": 28,
+    "name": "Sea Breeze",
+    "description": "19-foot bowrider with watersports tower",
+    "image_url": "assets/img/pexels-pixabay-86699.jpg"
+  },
+  {
+    "id": 29,
+    "name": "Titan Trawler",
+    "description": "Long-range cruising yacht with fuel-efficient design",
+    "image_url": "assets/img/pexels-pixabay-33689.jpg"
+  },
+  {
+    "id": 30,
+    "name": "Undertow",
+    "description": "Jet-powered rescue boat with shallow water capability",
+    "image_url": "assets/img/pexels-pixabay-33545.jpg"
+  },
+  {
+    "id": 31,
+    "name": "Viking Star",
+    "description": "Modern interpretation of Norse longship design",
+    "image_url": "assets/img/pexels-photoklickr-78359-244517.jpg"
+  },
+  {
+    "id": 32,
+    "name": "Whale Watcher",
+    "description": "Observation vessel with underwater microphones",
+    "image_url": "assets/img/pexels-nuno-obey-34504-128302.jpg"
+  },
+  {
+    "id": 33,
+    "name": "Xplorer",
+    "description": "All-terrain amphibious ATV boat hybrid",
+    "image_url": "assets/img/pexels-minan1398-715567.jpg"
+  },
+  {
+    "id": 34,
+    "name": "Yellowfin",
+    "description": "Center console fishing machine with multiple rod holders",
+    "image_url": "assets/img/pexels-mikebirdy-996328.jpg"
+  },
+  {
+    "id": 35,
+    "name": "Zephyr",
+    "description": "Wind-powered cargo ship with automated sail system",
+    "image_url": "assets/img/pexels-md-towhidul-islam-175863-3013018.jpg"
+  },
+  {
+    "id": 36,
+    "name": "Black Pearl",
+    "description": "Luxury charter schooner with teak decks",
+    "image_url": "assets/img/pexels-mali-42092.jpg"
+  },
+  {
+    "id": 37,
+    "name": "Blue Horizon",
+    "description": "Coastal patrol boat with night vision capabilities",
+    "image_url": "assets/img/pexels-lecreusois-240561.jpg"
+  },
+  {
+    "id": 38,
+    "name": "Crimson Tide",
+    "description": "High-tech racing yacht with AI navigation",
+    "image_url": "assets/img/pexels-korhan-erdol-1123380-2344572.jpg"
+  },
+  {
+    "id": 39,
+    "name": "Deep Dive",
+    "description": "Scientific vessel with moon pool for submersibles",
+    "image_url": "assets/img/pexels-hakantahmaz-2536643.jpg"
+  },
+  {
+    "id": 40,
+    "name": "Eco Warrior",
+    "description": "Plastic-collecting catamaran with conveyor system",
+    "image_url": "assets/img/pexels-goumbik-296278.jpg"
+  },
+  {
+    "id": 41,
+    "name": "Frostbite",
+    "description": "Arctic survey boat with heated crew quarters",
+    "image_url": "assets/img/pexels-frans-van-heerden-201846-625418.jpg"
+  },
+  {
+    "id": 42,
+    "name": "Golden Sun",
+    "description": "Solar-powered water taxi with panoramic windows",
+    "image_url": "assets/img/pexels-blitzboy-1106423.jpg"
+  }
+]

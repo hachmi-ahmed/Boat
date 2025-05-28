@@ -87,7 +87,7 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('BOAT_DETAIL.DESCRIPTION', 'Description', 'Description'),
     ('BOAT_DETAIL.IMAGE_URL', 'Image', 'Image'),
     ('API_BOAT.CREATED_SUCCESS', 'Bateau enregistré', 'Boat saved successfully'),
-    ('API_BOAT.DELETED', 'Bateaux supprimé', 'Boat deleted successfully'),
+    ('API_BOAT.DELETED', 'Bateau supprimé', 'Boat deleted successfully'),
     ('VALIDATION.BOAT_NAME', 'Nom  invalide, Max 50 caractères', 'Invalid Name, Max 50 caracters'),
     ('VALIDATION.BOAT_DESCRIPTION', 'Description  invalide, Max 300 caractères', 'Invalid Description, Max 300 caracters'),
     ('VALIDATION.BOAT_IMAGE_URL', 'Url de l''image  invalide, Max 200 caractères', 'Invalid Image Url, Max 200 caracters'),

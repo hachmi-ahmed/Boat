@@ -227,7 +227,10 @@ export class BoatDetailComponent implements OnInit, OnDestroy {
     }
   }
     checkIfCamAccess(){
-    if(this.authService.getCurrentUser()?.role!=='ROLE_ADMIN' && this.ownerId!==this.authService.getCurrentUser()?.id){
+    if(this.authService.getCurrentUser()?.role!=='ROLE_ADMIN' 
+      && this.ownerId!==this.authService.getCurrentUser()?.id
+      && !this.isNewBoat
+    ){
       this.router.navigateByUrl('/denied');
     }
   }

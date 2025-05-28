@@ -33,7 +33,7 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('USER_AUTH.LOGIN_FAILED', 'Échec de la connexion', 'Failed to login'),
     ('SELECT_LANGUAGE', 'Sélectionnez la langue', 'Select Language'),
     ('FOOTER_TEXT_1', 'Coder par', 'Made with'),
-    ('COMMON.UNKNOWN', 'Erreur inconnue, contacter l''administrateur','Unknown error. contact administrator'),
+    ('COMMON.UNKNOWN', 'Une erreur inconnue est survenue, veuillez contacter l''administrateur.','An unknown error occurred, please contact the administrator.'),
     ('COMMON.BACK', 'Retour', 'Back'),
     ('COMMON.OWNER', 'Créer par', 'Created By'),
     ('COMMON.YES', 'Oui', 'Yes'),
@@ -103,7 +103,7 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('VALIDATION.USER_INFO_PASSWORD', 'Min 6 caractères', 'Min 6 caracters'),
     ('VALIDATION.USER_INFO_FIRSTNAME', 'Max 50 caractères', 'Max 50 caracters'),
     ('VALIDATION.USER_INFO_LASTNAME', 'Max 50 caractères', 'Max 50 caracters'),
-    ('VALIDATION.UNKNOWN_FIELD', 'Erreur inconnue, contacter l''administrateur','Unknown error. contact administrator');
+    ('VALIDATION.UNKNOWN_FIELD', 'Erreur inconnue,veuillez contacter l''administrateur','Unknown error, please contact the administrator');
 
 
 

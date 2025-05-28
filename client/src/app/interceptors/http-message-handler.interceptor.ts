@@ -6,7 +6,7 @@ import {
   HttpRequest,
   HttpResponse
 } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { ResponseData } from '../models/response.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,14 @@ export class HttpInterceptorService implements HttpInterceptor {
               this.alertSuccess(response.key || (response.message?? response));
            }
         }
-      })
+      }),
+    catchError(err => {
+      // Handle HTTP error (like 404, 500, etc.)
+      const message =
+        err.error?.message || err.message || 'An unknown error occurred';
+      this.alertError('COMMON.UNKNOWN');
+      return throwError(() => err); // re-throw the error so subscribers get it
+    })
     );
   }
 

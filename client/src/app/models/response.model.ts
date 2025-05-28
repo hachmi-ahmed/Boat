@@ -3,4 +3,5 @@ export interface ResponseData {
     data: any;
     message: string;
     key: string;
+    notify: boolean;
 }

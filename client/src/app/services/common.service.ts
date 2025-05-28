@@ -7,7 +7,7 @@ export class CommonService {
     constructor(private http: HttpClient) {}
 
     getVersion(): Observable<string> {
-        return this.http.get('/api/version', { responseType: 'text' });
+        return this.http.get('/api/public/version', { responseType: 'text' });
     }
     
     getStats(): Observable<any> {

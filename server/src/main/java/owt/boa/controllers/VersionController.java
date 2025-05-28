@@ -10,7 +10,7 @@ public class VersionController {
     @Value("${project.version}")
     private String version;
 
-    @GetMapping("/api/version")
+    @GetMapping("/api/public/version")
     public String getVersion() {
         return version;
     }

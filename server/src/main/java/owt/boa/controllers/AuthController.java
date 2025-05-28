@@ -29,17 +29,17 @@ public class AuthController {
         try {
             authService.registerUser(request);
             return ApiResponseBuilder.build(
-                    HttpStatus.OK, null, "User registered successfully", "USER_AUTH.REGISTER_SUCCESS");
+                    HttpStatus.OK, null, "User registered successfully", "USER_AUTH.REGISTER_SUCCESS", true);
         } catch (EmailAlreadyTakenException e) {
             return ApiResponseBuilder.build(
-                    HttpStatus.BAD_REQUEST, null, e.getMessage(), "USER_AUTH.REGISTER_EMAIL_TAKEN");
+                    HttpStatus.BAD_REQUEST, null, e.getMessage(), "USER_AUTH.REGISTER_EMAIL_TAKEN", true);
         }
     }
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> authenticateUser(@Valid @RequestBody LoginRequest request) {
         LoginResponse response = authService.authenticate(request);
         return ApiResponseBuilder.build(
-                HttpStatus.OK, response, "User login successfully", "USER_AUTH.LOGIN_SUCCESS");
+                HttpStatus.OK, response, "User login successfully", "USER_AUTH.LOGIN_SUCCESS", true);
     }
 
 }

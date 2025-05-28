@@ -7,15 +7,16 @@ public class ApiResponse<T> {
     private T data;
     private String message;
     private String key;
-
+    private boolean notify;
     public ApiResponse() {
     }
 
-    public ApiResponse(int status, T data, String message, String key) {
+    public ApiResponse(int status, T data, String message, String key, boolean notify) {
         this.status = status;
         this.data = data;
         this.message = message;
         this.key = key;
+        this.notify = notify;
     }
 
     public int getStatus() {
@@ -48,5 +49,13 @@ public class ApiResponse<T> {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public boolean isNotify() {
+        return notify;
+    }
+
+    public void setNotify(boolean notify) {
+        this.notify = notify;
     }
 }

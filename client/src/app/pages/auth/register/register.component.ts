@@ -34,10 +34,16 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
             type="text"
             id="firstName"
             formControlName="firstName"
-            placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.USER_INFO_FIRSTNAME' | translate}}"
+            placeholder="{{ 'REGISTER_PAGE.FIRST_NAME_LABEL' | translate}}"
             class="w-full px-3 py-2 border rounded-md"
           >
-        </div>
+          <div *ngIf="registerForm.controls['firstName'].errors?.['required']  && registerForm.controls['firstName'].touched" class="text-red-600 text-sm mt-1">
+              {{ 'FORM.REQUIRED' | translate }}
+          </div>
+          <div *ngIf="registerForm.controls['firstName'].errors?.['maxlength']  && registerForm.controls['firstName'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'VALIDATION.USER_FIRSTNAME' | translate }}
+            </div>  
+          </div>
 
         <div class="mb-4">
           <label for="lastName" class="block text-gray-700 mb-2">{{ 'REGISTER_PAGE.LAST_NAME_LABEL' | translate }}</label>
@@ -45,9 +51,15 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
             type="text"
             id="lastName"
             formControlName="lastName"
-            placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.USER_INFO_LASTNAME' | translate}}"
+            placeholder="{{ 'REGISTER_PAGE.LAST_NAME_LABEL' | translate}}"
             class="w-full px-3 py-2 border rounded-md"
           >
+          <div *ngIf="registerForm.controls['lastName'].errors?.['required']  && registerForm.controls['lastName'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'FORM.REQUIRED' | translate }}
+          </div>
+          <div *ngIf="registerForm.controls['lastName'].errors?.['maxlength']  && registerForm.controls['lastName'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'VALIDATION.USER_LASTNAME' | translate }}
+          </div>
         </div>
 
         <div class="mb-4">
@@ -56,9 +68,18 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
             type="email"
             id="email"
             formControlName="email"
-            placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.USER_INFO_EMAIL' | translate}}"
+            placeholder="{{ 'REGISTER_PAGE.EMAIL_LABEL' | translate}}"
             class="w-full px-3 py-2 border rounded-md"
           >
+          <div *ngIf="registerForm.controls['email'].errors?.['required']  && registerForm.controls['email'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'FORM.REQUIRED' | translate }}
+          </div>
+          <div *ngIf="registerForm.controls['email'].errors?.['maxlength']  && registerForm.controls['email'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'VALIDATION.USER_EMAIL_MAX' | translate }}
+          </div>   
+          <div *ngIf="registerForm.controls['email'].errors?.['email']  && registerForm.controls['email'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'VALIDATION.USER_EMAIL_FORMAT' | translate }}
+          </div>   
         </div>
 
         <div class="mb-4">
@@ -67,9 +88,15 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
             type="password"
             id="password"
             formControlName="password"
-            placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.USER_INFO_PASSWORD' | translate}}"
+            placeholder="{{ 'REGISTER_PAGE.PASSWORD_LABEL' | translate}}"
             class="w-full px-3 py-2 border rounded-md"
           >
+          <div *ngIf="registerForm.controls['password'].errors?.['required']  && registerForm.controls['password'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'FORM.REQUIRED' | translate }}
+          </div>
+          <div *ngIf="registerForm.controls['password'].errors?.['minlength']  && registerForm.controls['password'].touched" class="text-red-600 text-sm mt-1">
+            {{ 'VALIDATION.USER_PASSWORD' | translate }}
+          </div>
         </div>
 
         <button
@@ -95,10 +122,10 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group({
       role: ['ROLE_USER', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      firstName: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

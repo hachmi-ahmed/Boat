@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
+// Set Autorization header with Bearer token for every request 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 

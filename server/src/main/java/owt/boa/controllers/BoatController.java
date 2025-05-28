@@ -50,44 +50,43 @@ public class BoatController {
         Boat saved = boatService.createBoat(this.mapper.convertValue(boat, Boat.class), userId);
         return ApiResponseBuilder.build(
                 HttpStatus.OK, this.mapper.convertValue(saved, BoatDto.class),
-                "Boat saved successfully", "API_BOAT.CREATED_SUCCESS"
-        );
+                "Boat saved successfully", "API_BOAT.CREATED_SUCCESS", true);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Boat>> findById(@PathVariable("id") Long id) {
         return boatService.findById(id)
                 .map(boat -> ApiResponseBuilder.build(
-                        HttpStatus.OK, boat, "Boat found", "API_BOAT.FOUND"))
+                        HttpStatus.OK, boat, "Boat found", "API_BOAT.FOUND", false))
                 .orElseGet(() -> ApiResponseBuilder.build(
-                        HttpStatus.NOT_FOUND, null, "Boat not found", "API_BOAT.NOT_FOUND"));
+                        HttpStatus.NOT_FOUND, null, "Boat not found", "API_BOAT.NOT_FOUND", true));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<BoatDto>>> findAll() {
         List<Boat> boats = boatService.findAll();
         return ApiResponseBuilder.build(
-                HttpStatus.OK, this.mapToDtos(boats), "Find all boats", "API_BOAT.LIST_FOUND");
+                HttpStatus.OK, this.mapToDtos(boats), "", "", false);
     }
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<ApiResponse<List<BoatDto>>> findAllByUserId(@PathVariable("userId") Long userId) {
         List<Boat> boats = boatService.findAllByUserId(userId);
         return ApiResponseBuilder.build(
-                HttpStatus.OK, this.mapToDtos(boats), "Find all boats by user id", "API_BOAT.LIST_FOUND_BY_USER");
+                HttpStatus.OK, this.mapToDtos(boats), "", "", false);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteById(@PathVariable("id") Long id) {
         this.boatService.deleteById(id);
         return ApiResponseBuilder.build(
-                HttpStatus.OK, null, "Boat was deleted", "API_BOAT.DELETED");
+                HttpStatus.OK, null, "Boat was deleted", "API_BOAT.DELETED", true);
     }
 
     @GetMapping("/image-urls")
     public ResponseEntity<ApiResponse<List<String>>> getImageUrls() {
         return ApiResponseBuilder.build(
-                HttpStatus.OK, urls(), "Find all boats images path", "API_BOAT.LIST_URLS_FOUND");
+                HttpStatus.OK, urls(), "", "", false);
     }
 
     private List<BoatDto> mapToDtos(List<Boat> boats) {

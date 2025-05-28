@@ -6,6 +6,7 @@ import {AuthService} from "../services/auth.service";
 export class NoAuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) {}
 
+    // prevent navigation to login or registraiton page after login or registration
     canActivate(): boolean {
         if (this.authService.getCurrentUser()) {
             this.router.navigate(['/overview']);

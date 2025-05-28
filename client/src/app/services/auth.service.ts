@@ -36,21 +36,12 @@ export class AuthService {
     const response = await firstValueFrom(
         this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password })
     );
-    if (response.status === 200) {
-      this.alertSucces(response.key);
-    } else {
-      this.alertError(response.key);
+    if (response.status !== 200) {
       throw new Error(response.message || 'Login failed failed');
-    }
+    } 
     this.tokenService.setToken(response.data.token);
 
-    const user: User = {
-      id: response.data.id,
-      email: response.data.email,
-      role: response.data.role as 'ROLE_USER' | 'ROLE_ADMIN',
-      firstName: response.data.firstName,
-      lastName: response.data.lastName
-    };
+    const user: User = this.initUser(response.data);
     this.tokenService.setUser(user);
     this.currentUser.set(user);
 
@@ -58,19 +49,12 @@ export class AuthService {
     return user;
   }
 
+
   async register(user: User): Promise<User> {
       const response = await firstValueFrom(this.http.post<ResponseData>(`${this.API_URL}/register`, user));
       if(response.status===200){
-         this.alertSucces(response.key);
         return this.login(user.email ?? '', user.password!);
-      } else if(response.status===400){
-        this.alertError(response.key);
-        throw new Error(response.message || 'Email is already taken');
-      }else if(response.status===404){
-        this.alertError(response.key);
-        throw new Error(response.message || 'Error validation');
-      }else{
-        this.message.error(response.message, { nzDuration: 5000 });
+     }else{
         throw new Error(response.message || 'Registration failed');
       }
   }
@@ -81,6 +65,17 @@ export class AuthService {
     this.router.navigate(['/login']);
     return Promise.resolve();
   }
+
+  initUser(data:any){
+    return {
+      id: data.id,
+      email: data.email,
+      role: data.role as 'ROLE_USER' | 'ROLE_ADMIN',
+      firstName: data.firstName,
+      lastName: data.lastName
+    };
+  }
+  
   isAuthenticated(): boolean{
     return !!this.tokenService.getToken();
   }

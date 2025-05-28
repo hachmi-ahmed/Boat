@@ -1,6 +1,6 @@
 # 🚤 BoatBook App
 
-BoatBook is a full-stack web application designed to expose a collection of boats, accessible only to registred and autheticated users. It features a modern Angular frontend and a secure Spring Boot backend, both containerized with Docker for simplified deployment and development.
+BoatBook is a full-stack web responsive application designed to expose a collection of boats, accessible only to registred and autheticated users. It features a modern Angular frontend and a secure Spring Boot backend, both containerized with Docker for simplified deployment and development.
 
  ---
 
@@ -49,6 +49,8 @@ Access Urls
 
 For local development, it uses a proxy to avoid CORS browser blocking and Ngnix in Docker environment.
 
+---
+
 ## ⚡️ Run Locally and Tests
 
 Backend (Spring Boot)
@@ -66,7 +68,7 @@ Frontend (Angular)
 - npm install
 - ng serve --> run on port 4200
 
-
+---
 
 ## 🚀 Run with Docker
 
@@ -75,6 +77,8 @@ Frontend (Angular)
 - Docker & Docker Compose installed on your machine.
 - Backend cd server then ./mvnw clean package
 - Frontend cd client then npm run build -- --configuration=production
+
+---
 
 ### Build and Run
 
@@ -94,7 +98,7 @@ After registration using email password, the front send a header for Authenticat
 The token is sent in the header of the request as follows:
 Authorization: Bearer <jwt-token>
 
-- User with ROLE_USER can register, login, create boats and delete their own boats.
+- User with ROLE_USER can register, login, create boats and delete their own boats. Can't access boat detail of others member's boats, else redirection access denied page.
 - User with ROLE_ADMINcan register, login, create boats and delete their own boats and others boats.
 
 

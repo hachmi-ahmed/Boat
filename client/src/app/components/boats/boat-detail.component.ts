@@ -1,18 +1,19 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { Boat } from '../../models/boat.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BoatService } from '../../services/boat.service';
-import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { takeUntil, finalize, first } from 'rxjs/operators'; // Added takeUntil, finalize
+import { Subject,  lastValueFrom } from 'rxjs'; // Added Subject, forkJoin
 import { CapitalizeFirstPipe } from '../../pipes/CapitalizeFirstPipe';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service'; 
+
 
 @Component({
   selector: 'app-boat-detail',
@@ -22,14 +23,13 @@ import { AuthService } from '../../services/auth.service';
     TranslateModule,
     CapitalizeFirstPipe,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule, // Keep if you use ngModel elsewhere, otherwise can be removed
     NzSelectModule,
     NzPopconfirmModule
   ],
   template: `
     <div class="min-h-screen bg-gray-50 py-6 mt-8 px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-        
         <div class="p-4 sm:p-6 border-b border-gray-100">
           <button
             (click)="goBack()"
@@ -45,54 +45,47 @@ import { AuthService } from '../../services/auth.service';
           </button>
         </div>
 
-        <ng-container *ngIf="!editMode">
-          <ng-container *ngIf="boat">
-            <div class="w-full h-[40vh] md:h-[40vh] lg:h-[40vh]">
-              <img
-                [src]="boat.imageUrl"
-                [alt]="boat.name"
-                class="object-cover w-full h-full"
-              />
+        <ng-container *ngIf="!editMode && boat">
+          <div class="w-full h-[40vh] md:h-[40vh] lg:h-[40vh]">
+            <img
+              [src]="boat.imageUrl"
+              [alt]="boat.name"
+              class="object-cover w-full h-full"
+            />
+          </div>
+
+          <div class="p-6 md:p-10 lg:p-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              {{ boat.name }}
+            </h1>
+            <p>{{ 'COMMON.OWNER' | translate }} {{ boat.ownerFirstName | capitalizeFirst }} {{ boat.ownerLastName | capitalizeFirst }}</p>
+
+            <p class="text-gray-600 md:text-lg leading-relaxed mb-10">
+              {{ boat.description }}
+            </p>
+
+            <div *ngIf="isAdmin" class="mt-8 pt-6 border-t border-gray-200 flex justify-end">
+              <button
+                (click)="editBoat()"
+                 class="bg-gray-300 text-black px-6 py-2 rounded hover:bg-gray-400 transition-colors"
+              >
+                {{ 'BOAT_DETAIL.EDIT' | translate }}
+              </button>  
+              <button
+                nz-popconfirm
+                nzPopconfirmTitle="{{ 'COMMON.CONFIRM_MESSAGE' | translate }}"
+                (nzOnConfirm)="onDelete()"
+                (nzOnCancel)="cancelDelete()"
+                nzOkText="{{ 'COMMON.YES' | translate }}"
+                nzCancelText="{{ 'COMMON.CANCEL' | translate }}"
+                nzPopconfirmPlacement="top"
+                class="bg-red-600 text-white ml-2 px-6 py-2 rounded hover:bg-red-700 transition-colors"
+              >
+                {{ 'BOAT_DETAIL.DELETE' | translate }}
+              </button>
             </div>
-
-            <div class="p-6 md:p-10 lg:p-8">
-              <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                {{ boat.name }}
-              </h1>
-              <p>{{ 'COMMON.OWNER' | translate }} {{ boat.ownerFirstName  | capitalizeFirst}} {{ boat.ownerLastName  | capitalizeFirst}}</p>
-
-              <p class="text-gray-600 md:text-lg leading-relaxed mb-10">
-                {{ boat.description }}
-              </p>
-
-              <div *ngIf="isAdmin" class="mt-8 pt-6 border-t border-gray-200 flex justify-end">
-                <button
-                  (click)="editBoat()"
-                   class="bg-gray-300 text-black  px-6 py-2 rounded hover:bg-gray-400 transition-colors"
-                >
-                  {{ 'BOAT_DETAIL.EDIT' | translate }}
-                </button>  
-                <button
-
-                  nz-popconfirm
-                  nzPopconfirmTitle="{{ 'COMMON.CONFIRM_MESSAGE' | translate }}"
-                  (nzOnConfirm)="onDelete()"
-                  (nzOnCancel)="cancel()"
-                  nzOkText="{{ 'COMMON.YES' | translate }}"
-                  nzCancelText="{{ 'COMMON.CANCEL' | translate }}" 
-                  nzCancelText="cancel"
-                  nzPopconfirmPlacement="top"
-                  class="bg-red-600 text-white  ml-2 px-6 py-2 rounded hover:bg-red-700 transition-colors"
-                >
-                  {{ 'BOAT_DETAIL.DELETE' | translate }}
-                </button>
-   
-              </div>
-            </div>
-          </ng-container>       
+          </div>
         </ng-container>
-
-        <!-- EDIT FORM-->
 
         <ng-container *ngIf="boatForm && editMode">
           <div class="p-6 md:p-10 lg:p-8">
@@ -111,28 +104,44 @@ import { AuthService } from '../../services/auth.service';
                 <nz-select formControlName="imageUrl" class="w-full" nzPlaceHolder="{{ 'FORM.REQUIRED' | translate }}">
                   <nz-option *ngFor="let url of imageOptions" [nzValue]="url" [nzLabel]="url"></nz-option>
                 </nz-select>
+                <div *ngIf="boatForm.controls['imageUrl'].invalid && boatForm.controls['imageUrl'].touched" class="text-red-600 text-sm mt-1">
+                    {{ 'FORM.REQUIRED' | translate }}
+                </div>
               </div>
               <div>
                 <label class="block text-gray-700 font-medium mb-1">
                   {{ 'BOAT_DETAIL.NAME' | translate }}
                 </label>
-                <input type="text" formControlName="name"   placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.BOAT_INFO_NAME' | translate }}"
+                <input type="text" formControlName="name" placeholder="{{ 'BOAT_DETAIL.NAME' | translate }}"
                   class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <div *ngIf="boatForm.controls['name'].errors?.['required']  && boatForm.controls['name'].touched" class="text-red-600 text-sm mt-1">
+                  {{ 'FORM.REQUIRED' | translate }}
+                </div>
+              <div *ngIf="boatForm.controls['name'].errors?.['maxlength']  && boatForm.controls['name'].touched" class="text-red-600 text-sm mt-1">
+                  {{ 'VALIDATION.BOAT_NAME' | translate }}
+              </div>
               </div>
               <div>
                 <label class="block text-gray-700 font-medium mb-1">
                   {{ 'BOAT_DETAIL.DESCRIPTION' | translate }}
                 </label>
-                <textarea formControlName="description" rows="4"   placeholder="{{ 'FORM.REQUIRED' | translate }} {{ 'VALIDATION.BOAT_INFO_DESCRIPTION' | translate }}"
+                <textarea formControlName="description" rows="4" placeholder="{{ 'BOAT_DETAIL.DESCRIPTION' | translate }}"
                   class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                <div *ngIf="boatForm.controls['description'].errors?.['required']  && boatForm.controls['description'].touched" class="text-red-600 text-sm mt-1">
+                  {{ 'FORM.REQUIRED' | translate }}
+                </div>
+                <div *ngIf="boatForm.controls['description'].errors?.['maxlength']  && boatForm.controls['description'].touched" class="text-red-600 text-sm mt-1">
+                  {{ 'VALIDATION.BOAT_DESCRIPTION' | translate }}
+                </div>
               </div>
               <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
                 <button type="submit"
                   class="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          [disabled]="boatForm.invalid">
+                  [disabled]="boatForm.invalid || isSubmitting"
+                >
                   {{ 'BOAT_DETAIL.SAVE' | translate }}
                 </button>
-                <button type="button" (click)="cancel()"
+                <button type="button" (click)="onCancelEdit()"
                   class="bg-gray-300 text-black px-6 py-2 rounded hover:bg-gray-400 transition-colors">
                   {{ 'COMMON.CANCEL' | translate }}
                 </button>
@@ -144,28 +153,24 @@ import { AuthService } from '../../services/auth.service';
     </div>
   `
 })
-export class BoatDetailComponent implements OnInit {
+export class BoatDetailComponent implements OnInit, OnDestroy {
   @Input() isAdmin = true;
   @Output() delete = new EventEmitter<Boat | null>();
-  editMode = false;
 
-  boat: Boat = {
-            id: -1,
-            name: '',
-            description: '',
-            imageUrl: '',
-            ownerFirstName: '',
-            ownerLastName: ''
-          };;
+  editMode = false;
+  boat: Boat | null = null;
   errorMessage: string | null = null;
   isNewBoat = false;
-  ownerId:number | undefined;
+  ownerId: number | undefined;
+  isSubmitting = false;
+  private destroy$ = new Subject<void>();
 
   boatForm!: FormGroup;
   imageOptions: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private boatService: BoatService,
     private location: Location,
@@ -175,124 +180,159 @@ export class BoatDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.boatService.getBoatsImagesUrls().subscribe((response) => {
-      this.imageOptions = response.data;
-    });
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        const boatId = Number(params.get('boatId'));
-        if (boatId === -1) {
-          this.isNewBoat = true;  
-          this.editMode = true;       
-          this.initForm(this.boat);
-          return of(null);
-        } else {
-          return this.boatService.getBoatById(boatId);
+    this.loadBoatAndImageUrls();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private async loadBoatAndImageUrls(): Promise<void> {
+    try {
+      const imagesResponsePromise = lastValueFrom(this.boatService.getBoatsImagesUrls());
+      this.imageOptions = (await imagesResponsePromise).data || [];
+
+      const params : any = await lastValueFrom(this.route.paramMap.pipe(first()));
+      const boatId = Number(params.get('boatId'));
+
+      let boatData: Boat;
+      if (isNaN(boatId) || boatId === -1) {
+        this.isNewBoat = true;
+        this.editMode = true;
+        boatData = this.createEmptyBoat();
+      } else {
+        try {
+          const boatResponse = await lastValueFrom(this.boatService.getBoatById(boatId));
+          if (boatResponse?.data) {
+            boatData = boatResponse.data;
+          } else {
+            this.editMode = false;
+            return;
+          }
+        } catch (error) {
+          console.error('Error fetching boat by ID:', error);
+          this.editMode = false; 
+          return;
         }
-      })
-    ).subscribe({
-      next: (boatData) => {
-        if (boatData?.data) {
-          this.boat = boatData.data;
-          this.ownerId = this.boat.owner?.id;
-          this.initForm(this.boat);
-        } else if (!this.isNewBoat) {
-          this.errorMessage = 'Boat not found.';
-        }
-      },
-      error: () => {
-        this.errorMessage = 'Failed to load boat.';
       }
-    });
-  }
 
-  initForm(boat: Boat) {
-    this.boatForm = this.fb.group({
-      name: [boat.name, Validators.required],
-      description: [boat.description, Validators.required],
-      imageUrl: [boat.imageUrl, Validators.required]
-    });
-  }
-
-  onSubmit() {
-    if (this.boatForm.invalid) return;
-
-    const formValue = this.boatForm.value;
-    const payload: Boat = {
-      ...this.boat!,
-      ...formValue
-    };
-    payload.userId=this.ownerId;
-    payload.owner = undefined;
-    if (this.isNewBoat) {
-      this.boatService.createOrSaveBoat(payload).subscribe({
-        next: (response) => {
-          if(response.status===200){
-            this.alertSuccess(response.key);
-            this.location.back();
-          } else if(response.status===400){
-            this.alertError(response.key);
-          } else if(response.status===404){
-            this.alertError(response.key);
-          }
-        },
-        error: () => this.alertError('Failed to create boat')
-      });
-    } else {
+      this.boat = boatData;
+      this.ownerId = this.boat.owner?.id;
+      this.checkIfCamAccess();
+      this.initForm(this.boat); 
       
-      this.boatService.createOrSaveBoat(payload)      
-      .subscribe({
-        next: (response) => {
-          if(response.status===200){
-            this.alertSuccess(response.key);
-            this.location.back();
-          } else if(response.status===400){
-            this.alertError(response.key);
-          } else if(response.status===404){
-            this.alertError(response.key);
-          }
-        },
-        error: () => this.alertError('Failed to update boat')
-      });
+    } catch (err) {
+      console.error('Error during boat/image URL loading:', err);
+    }
+  }
+    checkIfCamAccess(){
+    if(this.authService.getCurrentUser()?.role!=='ROLE_ADMIN' && this.ownerId!==this.authService.getCurrentUser()?.id){
+      this.router.navigateByUrl('/denied');
     }
   }
 
-  cancel(){
-    if(this.boat.id===-1){
+  private createEmptyBoat(): Boat {
+    return {
+      id: -1,
+      name: '',
+      description: '',
+      imageUrl: this.imageOptions.length > 0 ? this.imageOptions[0] : '',
+      userId: this.authService.getCurrentUser()?.id
+    };
+  }
+
+  initForm(boat: Boat | null): void {
+    this.boatForm = this.fb.group({
+      name: [boat?.name, [Validators.required, Validators.maxLength(50)]],
+      description: [boat?.description, [Validators.required, Validators.maxLength(300)]],
+      imageUrl: [boat?.imageUrl, [Validators.required]]
+    });
+    this.boatForm.controls['imageUrl'].valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(url => {
+        if (this.boat) {
+          this.boat.imageUrl = url;
+        }
+      });
+  }
+
+  onSubmit(): void {
+    if (this.boatForm.invalid) {
+      this.boatForm.markAllAsTouched();
+      this.alertError('FORM.INVALID_FORM');
+      return;
+    }
+    this.isSubmitting = true;
+    const formValue = this.boatForm.value;
+    const payload: Boat = {
+      ...this.boat!,
+      ...formValue,
+      userId: this.isNewBoat ? this.authService.getCurrentUser()?.id : this.ownerId
+    };
+    payload.owner = undefined;
+
+    this.boatService.createOrSaveBoat(payload)
+      .pipe(finalize(() => this.isSubmitting = false)) 
+      .subscribe({
+        next: (response) => {
+          if (response.status === 200) {
+            this.location.back();
+          } 
+        },
+        error: (err) => {
+          console.error('Boat save/create error:', err);
+        }
+      });
+  }
+
+  onCancelEdit(): void {
+    if (this.isNewBoat) {
       this.goBack();
-    }else{
-      this.editMode=false;
-      this.boatForm.reset();
+    } else {
+      this.editMode = false;
+      this.boatForm.patchValue(this.boat!);
+      this.boatForm.markAsPristine();
     }
   }
 
   onDelete(): void {
-    this.boatService.deleteBoatById(this.boat.id).subscribe({
+    this.boatService.deleteBoatById(this.boat?.id)
+      .pipe(finalize(() => this.isSubmitting = false))
+      .subscribe({
         next: (response) => {
-          this.alertSuccess(response.key);
           this.delete.emit(this.boat);
           this.location.back();
         },
-        error: () => this.alertError('Failed to delete boat')
-     });
+        error: (err) => {
+          console.error('Boat deletion error:', err);
+        }
+      });
   }
 
-  onCancel(){}
+  cancelDelete(): void {
+   
+  }
 
-  editBoat(){
+  editBoat(): void {
     this.editMode = true;
-    this.boatForm.patchValue(this.boat);
+    this.boatForm.patchValue(this.boat!); 
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  alertSuccess(key: string) {
+  alertSuccess(key: string): void {
     this.message.success(this.translate.instant(key), { nzDuration: 5000 });
   }
 
-  alertError(key: string) {
+  alertError(key: string): void {
     this.message.error(this.translate.instant(key), { nzDuration: 5000 });
+  }
+  
+  isControlInvalid(controlName: string): boolean {
+    const control = this.boatForm.get(controlName);
+    return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 }

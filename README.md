@@ -79,8 +79,6 @@ Frontend (Angular)
 - Backend cd server then ./mvnw clean package
 - Frontend cd client then npm run build -- --configuration=production
 
----
-
 ### Build and Run
 
 From the root of the project, run in the following command in terminal:
@@ -102,6 +100,7 @@ Authorization: Bearer <jwt-token>
 - User with ROLE_USER can register, login, create boats and delete their own boats. Can't access boat detail of others member's boats, else redirection access denied page.
 - User with ROLE_ADMINcan register, login, create boats and delete their own boats and others boats.
 
+---
 
 ## 🌍 Internationalization
 

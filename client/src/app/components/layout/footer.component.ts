@@ -10,7 +10,7 @@ import {TranslateModule} from "@ngx-translate/core";
         <footer class="bg-black text-white">
           <div class="flex flex-col items-center justify-center space-y-2">
             <p class="text-center text-sm flex items-center gap-1" style="padding-top: 10px;">
-              {{ 'FOOTER_TEXT_1' | translate }}<span class="text-red-500 text-lg">❤️</span>{{ 'FOOTER_TEXT_2' | translate }}<strong>{{ 'FOOTER_TEXT_3' | translate }}</strong><img src="assets/img/owt.png" alt="Open Web Technology Logo" class="h-6"> Version - {{version}}
+              {{ 'FOOTER_TEXT_1' | translate }}<span class="text-red-500 text-lg">❤️</span>{{ 'FOOTER_TEXT_2' | translate }}<strong>{{ 'FOOTER_TEXT_3' | translate }}</strong><img src="assets/img/owt.png" alt="Open Web Technology Logo" class="h-6"> - Version : {{version}}
             </p>            
           </div>
         </footer>

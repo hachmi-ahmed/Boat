@@ -58,6 +58,7 @@ Backend (Spring Boot)
 - cd server
 - ./mvnw clean install
 - ./mvnw spring-boot:run   --> run on port 8080 
+
 For Tests
 
 - ./mvnw clean test

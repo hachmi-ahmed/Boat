@@ -47,7 +47,7 @@ Access Urls
 | Frontend    | [http://localhost:4200](http://localhost:4200) |
 | Backend API | [http://localhost:8080](http://localhost:8080) |
 
-For local development, it uses a proxy to avoid CORS browser blocking and Ngnix in Docker environment.
+For local development, it uses a proxy to avoid CORS browser blocking and Ngnix in Docker environment (See configuration in client folder).
 
 ---
 

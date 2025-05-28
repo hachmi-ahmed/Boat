@@ -36,7 +36,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       const message =
         err.error?.message || err.message || 'An unknown error occurred';
       this.alertError('COMMON.UNKNOWN');
-      return throwError(() => err); // re-throw the error so subscribers get it
+      return throwError(() => err);
     })
     );
   }

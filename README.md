@@ -32,10 +32,15 @@ BoatBook is a full-stack web responsive application designed to expose a collect
 ## 📦 Project Structure and accessibility
 
 Boat/
+
 ├── docker-compose.yml # Docker orchestration file
+
 ├── server/ # Spring Boot backend application
+
 │ └── Dockerfile
+
 ├── client/ # Angular frontend application
+
 │ └── Dockerfile
 
 
@@ -102,11 +107,11 @@ Authorization: Bearer <jwt-token>
 
 The application is populated with following default users: 
 
-
+User with ROLE_USER:
 - login=user@test.com 
 - password=test
-- role=ROLE_USER
 
+User with ROLE_ADMIN:
 - login=admin@test.com 
 - password=test
 - role=ROLE_USER

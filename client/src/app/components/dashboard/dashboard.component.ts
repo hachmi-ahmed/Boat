@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit() {
     this.commonService.getStats().subscribe((response)=>{
-      this.stats = response;
+      this.stats = response.data;
     });
     this.user  = this.authService.getCurrentUser();
     if(this.user!==null && this.user.role==='ROLE_USER'){

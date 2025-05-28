@@ -20,7 +20,7 @@ BoatBook is a full-stack web responsive application designed to expose a collect
 
 ## 🛠 Technologies Used
 
-- **Frontend**: Angular 19, Tailwind css, Font Awesome, nz-oorro Library
+- **Frontend**: Angular 19, Tailwind css, Font Awesome, NZ-Zorro Library
 - **Backend**: Spring Boot 3.5.0 (Java 21)
 - **Authentication**: JWT
 - **Database**: H2 (in-memory, with Flyway migrations)

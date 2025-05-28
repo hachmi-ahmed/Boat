@@ -100,7 +100,16 @@ Authorization: Bearer <jwt-token>
 - User with ROLE_USER can register, login, create boats and delete their own boats. Can't access boat detail of others members boats, else redirection to access denied page.
 - User with ROLE_ADMIN can register, login, create boats and delete their own boats and others members boats.
 
-The application is populated with default user@test.com and admin@test.com
+The application is populated with following default users: 
+
+
+- login=user@test.com 
+- password=test
+- role=ROLE_USER
+
+- login=admin@test.com 
+- password=test
+- role=ROLE_USER
 
 ---
 

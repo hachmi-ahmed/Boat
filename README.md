@@ -114,7 +114,6 @@ User with ROLE_USER:
 User with ROLE_ADMIN:
 - login=admin@test.com 
 - password=test
-- role=ROLE_USER
 
 ---
 

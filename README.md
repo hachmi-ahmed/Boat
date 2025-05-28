@@ -97,8 +97,8 @@ After registration using email password, the front send a header for Authenticat
 The token is sent in the header of the request as follows:
 Authorization: Bearer <jwt-token>
 
-- User with ROLE_USER can register, login, create boats and delete their own boats. Can't access boat detail of others member's boats, else redirection access denied page.
-- User with ROLE_ADMINcan register, login, create boats and delete their own boats and others boats.
+- User with ROLE_USER can register, login, create boats and delete their own boats. Can't access boat detail of others members boats, else redirection to access denied page.
+- User with ROLE_ADMIN can register, login, create boats and delete their own boats and others members boats.
 
 ---
 

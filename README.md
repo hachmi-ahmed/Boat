@@ -109,11 +109,11 @@ The application is populated with following default users:
 
 User with ROLE_USER:
 - login=user@test.com 
-- password=test
+- password=password
 
 User with ROLE_ADMIN:
 - login=admin@test.com 
-- password=test
+- password=password
 
 ---
 

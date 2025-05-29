@@ -17,28 +17,58 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Objects;
 
-
+/**
+ * Abstract base class for auditable JPA entities.
+ *
+ * This class is annotated with @MappedSuperclass and uses @CreatedBy, @CreatedDate,
+ * @LastModifiedBy, and @LastModifiedDate annotations provided by Spring Data JPA.
+ *
+ * The actual auditing values (who created/updated the entity) are provided by
+ * the AuditorAware implementation defined in the AuditConfig class:
+ *
+ * @see owt.boa.config.AuditConfig
+ *
+ * The AuditConfig defines a bean of type AuditorAware<String> that extracts the
+ * username from the Spring Security context, which allows automatic population
+ * of audit fields during entity persistence/update.
+ */
 @MappedSuperclass
 @EntityListeners({AuditingEntityListener.class})
 public abstract class AuditableEntity<PK extends Serializable> implements Auditable<String, PK, LocalDateTime> {
 
-
+    /**
+     * Username of the user who created the entity.
+     * Automatically populated using AuditorAware.
+     */
     @CreatedBy
     @Basic
     private String createdBy = "system";
 
+    /**
+     * Timestamp when the entity was created.
+     * Automatically populated by JPA auditing.
+     */
     @CreatedDate
     @Basic
     private LocalDateTime createdDate = LocalDateTime.now();
 
+    /**
+     * Username of the last user who modified the entity.
+     * Automatically updated using AuditorAware.
+     */
     @LastModifiedBy
     @Basic
     private String lastModifiedBy;
 
+    /**
+     * Timestamp of the last modification.
+     * Automatically updated by JPA auditing.
+     */
     @LastModifiedDate
     @Basic
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
+    // Getters and setters with Optional to avoid null checks
 
     public Optional<LocalDateTime> getLastModifiedDate() {
         return Optional.ofNullable(lastModifiedDate);
@@ -72,7 +102,9 @@ public abstract class AuditableEntity<PK extends Serializable> implements Audita
         this.createdBy = createdBy;
     }
 
-
+    /**
+     * Determines if the entity is new (not yet persisted).
+     */
     @Override
     public boolean isNew() {
         return getId() == null;

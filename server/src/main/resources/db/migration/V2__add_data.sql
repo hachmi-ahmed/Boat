@@ -9,8 +9,8 @@ INSERT INTO boatDb.app_user (
     last_modified_by,
     last_modified_date
 ) VALUES
-    ('admin@test.com', 'admin', 'admin', '$2a$10$SNK/h7b2oAkPPE91Z..lROFMeySSitYZYDj8Pj9t56LtK69rVCMLS', 'ROLE_ADMIN', 'system', '2025-05-26 12:57:34.41199', NULL, '2025-05-26 12:57:34.41199'),
-    ('user@test.com', 'user', 'user', '$2a$10$SNK/h7b2oAkPPE91Z..lROFMeySSitYZYDj8Pj9t56LtK69rVCMLS', 'ROLE_USER', 'system', '2025-05-26 12:57:34.41199', NULL, '2025-05-26 12:57:34.41199');
+    ('admin@test.com', 'admin', 'admin', '$2a$10$MU2Ene90yUfYWYevRb6AcObfht3z8.tmfcco0dj0e6MAbTiKoYZiK', 'ROLE_ADMIN', 'system', '2025-05-26 12:57:34.41199', NULL, '2025-05-26 12:57:34.41199'),
+    ('user@test.com', 'user', 'user', '$2a$10$MU2Ene90yUfYWYevRb6AcObfht3z8.tmfcco0dj0e6MAbTiKoYZiK', 'ROLE_USER', 'system', '2025-05-26 12:57:34.41199', NULL, '2025-05-26 12:57:34.41199');
 
 INSERT INTO boatDb.boat (name, description, image_url, user_id, created_by, created_date, last_modified_by, last_modified_date)
 VALUES

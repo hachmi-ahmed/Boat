@@ -63,7 +63,6 @@ public class AuthService {
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
-
         userRepository.save(user);
     }
 
@@ -80,14 +79,11 @@ public class AuthService {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = userRepository.findByEmail(userDetails.getUsername());
-
             if (user == null) {
                 throw new UserNotFoundException("User not found");
             }
-
             Role role = user.getRole();
             String token = jwtUtil.generateToken(userDetails, role);
 

@@ -6,6 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 
+/**
+ * Entity representing a multilingual message in the system.
+ * Each message has a unique code and corresponding translations in French and English.
+ */
 @Entity
 public class Message {
     @Id

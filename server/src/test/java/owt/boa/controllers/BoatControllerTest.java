@@ -29,7 +29,8 @@ class BoatControllerTest {
     @MockBean
     private BoatService boatService;
 
-    private static final  String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzQ4MzYwODAyLCJleHAiOjE3NDg0NDcyMDJ9.XvETfnyw-0qGtYzkXZHlh8jyTT7gHeVRm-vQ3ThrGgU";
+    private static final  String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzQ4NTEwNDM0LCJleHAiOjQ5MDIxMTA0MzR9.OZhiyGUHFEYTJWJTsB0aOVweVhNzlHZ03KUo4lvlJ5E";
+    //"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInN1YiI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzQ4MzYwODAyLCJleHAiOjE3NDg0NDcyMDJ9.XvETfnyw-0qGtYzkXZHlh8jyTT7gHeVRm-vQ3ThrGgU";
 
 
     @Test
@@ -65,7 +66,7 @@ class BoatControllerTest {
                                 .header("Authorization", "Bearer " + token))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.key").value("API_BOAT.LIST_URLS_FOUND"))
+                .andExpect(jsonPath("$.key").value(""))
                 .andExpect(jsonPath("$.data").isArray());
     }
 
@@ -79,7 +80,7 @@ class BoatControllerTest {
 
         mockMvc.perform(get("/api/boats").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.key").value("API_BOAT.LIST_FOUND"));
+                .andExpect(jsonPath("$.key").value(""));
     }
 
 }

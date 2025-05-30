@@ -17,13 +17,25 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
   template: `
      <section id="gallery" class="py-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4">
-        <h2 *ngIf="mode==='read'" class="text-4xl font-bold text-center mb-16">{{ 'HOME_PAGE.BOATS_TITLE' | translate }}</h2>
-        <h2 *ngIf="mode==='edit' && isAdmin"  class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.ALL_BOAT' | translate }} ({{boats.length}})</h2>
-        <h2 *ngIf="mode==='edit' && !isAdmin" class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.MY_BOAT' | translate }} ({{boats.length}})</h2>
+        @if(mode==='read'){
+          <h2 class="text-4xl font-bold text-center mb-16">{{ 'HOME_PAGE.BOATS_TITLE' | translate }}</h2>
+        } @else {
+          @if(isAdmin){
+            @if(!showAll){
+              <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.ALL_BOATS' | translate }} ({{boats.length}})</h2>
+            }@else{
+              <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.MY_BOATS' | translate }} ({{boats.length}})</h2>  
+            }
+          }@else{
+            <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.MY_BOATS' | translate }} ({{boats.length}})</h2>  
+          }
+        }
+        
+        
         
         <div class="flex items-center justify-between mb-4" *ngIf="mode==='edit'">
           <div class="flex items-center gap-2">
-            <label *ngIf="isAdmin"  for="showAllSwitch" class="text-gray-700">{{ 'DASHBOARD.SHOW_MINE' | translate }}</label>
+            <label *ngIf="isAdmin"  for="showAllSwitch" class="text-gray-700"><strong>{{ 'DASHBOARD.SHOW_MINE' | translate }}</strong></label>
             <nz-switch *ngIf="isAdmin" [(ngModel)]="showAll" id="showAllSwitch" 
             (ngModelChange)="toggleShowMine.emit(!showAll)"></nz-switch>
           </div>          

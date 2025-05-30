@@ -17,21 +17,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
   template: `
      <section id="gallery" class="py-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4">
-        @if(mode==='read'){
-          <h2 class="text-4xl font-bold text-center mb-16">{{ 'HOME_PAGE.BOATS_TITLE' | translate }}</h2>
-        } @else {
-          @if(isAdmin){
-            @if(!showAll){
-              <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.ALL_BOATS' | translate }} ({{boats.length}})</h2>
-            }@else{
-              <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.MY_BOATS' | translate }} ({{boats.length}})</h2>  
-            }
-          }@else{
-            <h2 class="text-4xl font-bold text-center mb-16">{{ 'DASHBOARD.MY_BOATS' | translate }} ({{boats.length}})</h2>  
-          }
-        }
-        
-        
+        <h2 class="text-4xl font-bold text-center mb-16">
+          {{ titleKey | translate }}
+          <span *ngIf="showCount">({{ boats.length }})</span>
+        </h2>
         
         <div class="flex items-center justify-between mb-4" *ngIf="mode==='edit'">
           <div class="flex items-center gap-2">
@@ -124,6 +113,20 @@ export class BoatsComponent {
 
   newBoat(){
     this.router.navigate(['boats/-1']);
+  }
+
+  get titleKey(): string {
+    if (this.mode === 'read') {
+      return 'HOME_PAGE.BOATS_TITLE';
+    }
+    if (this.isAdmin) {
+      return this.showAll ? 'DASHBOARD.MY_BOATS' : 'DASHBOARD.ALL_BOATS';
+    }
+    return 'DASHBOARD.MY_BOATS';
+  }
+
+  get showCount(): boolean {
+    return this.mode !== 'read';
   }
   
 }

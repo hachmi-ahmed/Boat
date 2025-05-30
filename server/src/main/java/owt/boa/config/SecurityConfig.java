@@ -47,7 +47,8 @@ public class SecurityConfig {
                     "/api/public/version",
                     "/api/messages",
                     "/api/public/i18n/**",
-                    "/h2-console/**")
+                    "/h2-console/**",
+                    "/actuator/**")
                 .permitAll()
                 .requestMatchers("/api/boats/**").authenticated()
                 .anyRequest().authenticated()

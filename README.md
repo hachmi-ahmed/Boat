@@ -24,8 +24,11 @@ BoatBook is a full-stack web responsive application designed to expose a collect
 - **Backend**: Spring Boot 3.5.0 (Java 21)
 - **Authentication**: JWT
 - **Database**: H2 (in-memory, with Flyway migrations)
-- **Build**: Maven, NPM
+- **Build**: Maven(3.9.9), Node(18.19.0), NPM(9.6.7)  
 - **Containerization**: Docker, Docker Compose
+
+- **Build and tests executed on macOS Ventura 13.3.1 (a)**
+
 
 ---
 
@@ -64,15 +67,18 @@ Backend (Spring Boot)
 - ./mvnw clean install
 - ./mvnw spring-boot:run   --> run on port 8080 
 
-For Tests
-
-- ./mvnw clean test
 
 Frontend (Angular)
 
 - cd client
 - npm install
 - ng serve --> run on port 4200
+
+Tests
+
+Inside project root folder, run in terminal:
+- ./mvnw verify           -> Run Unit and Integration Tests inside server/src/test folder
+- ./mvnw verify -P e2e    -> Run Cypress Tests inside client/cypress/e2e folder
 
 ---
 

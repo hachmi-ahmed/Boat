@@ -1,0 +1,45 @@
+{
+  "name": "nanny-booking-platform",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "dev": "ng serve",
+    "build:server": "cd ../server && mvn package -DskipTests",
+    "start-backend": "java -jar ../server/target/boat.jar",
+    "cy:run": "cypress run",
+    "test:e2e": "npm run build:server && npm run e2e",
+    "e2e": "concurrently -k -s first \"npm run start-backend\" \"npm run start\" \"npm run wait-and-test\"",
+    "wait-and-test": "wait-on tcp:4200 tcp:8080 && npm run cy:run"
+  },
+  "dependencies": {
+    "@angular/animations": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/router": "^19.2.0",
+    "@ngx-translate/core": "^16.0.4",
+    "@ngx-translate/http-loader": "^16.0.1",
+    "ng-zorro-antd": "^19.2.2",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.5.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^19.2.0",
+    "@angular/cli": "^19.2.0",
+    "@angular/compiler-cli": "^19.2.0",
+    "@cypress/schematic": "^3.0.0",
+    "autoprefixer": "^10.4.17",
+    "concurrently": "^9.1.2",
+    "cypress": "latest",
+    "postcss": "^8.4.35",
+    "start-server-and-test": "^2.0.12",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.8.2",
+    "wait-on": "^8.0.3"
+  }
+}

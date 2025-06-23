@@ -130,6 +130,18 @@ User with ROLE_ADMIN:
 The Frontend uses ngx-translate for internationalization. The application supports English (en) and French (fr) languages. It detect browser language else it uses English by default. The language can be changed by clicking on the flag icon in the top right corner of the screen. HttpTranslateLoader is configure to combine translates files from backend and locally in the frontend. Backend keys override local if duplicated.
 
 
+ ---
+
+ # TODOS
+ - JWT token revocation.
+ - Swagger API.
+ - Refactor the API response, actually it's a exploration how to simplify the frontend messages (sucess, error) handling.
+ - Complete testing, back and front end.
+ - Integrate OAuth2 authentication using a provider like Google or secure APIs using Spring Security as a resource server.
+ - Refactor angular component to use store
+
+
+
 - 👤 Author
 - Ahmed Hachmi
 - Full Stack Java Developer

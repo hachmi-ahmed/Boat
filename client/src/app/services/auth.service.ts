@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
-import { firstValueFrom } from 'rxjs';
+import {firstValueFrom, Observable} from 'rxjs';
 import { ResponseData } from '../models/response.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TokenService } from './token.service';
@@ -32,7 +32,11 @@ export class AuthService {
     return this.tokenService.getToken();
   }
 
-  async login(email: string, password: string): Promise<User> {
+  login(email: any, password: any): Observable<ResponseData> {
+    return this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password });
+  }
+
+  async login1(email: string, password: string): Promise<User> {
     const response = await firstValueFrom(
         this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password })
     );
@@ -53,7 +57,7 @@ export class AuthService {
   async register(user: User): Promise<User> {
       const response = await firstValueFrom(this.http.post<ResponseData>(`${this.API_URL}/register`, user));
       if(response.status===200){
-        return this.login(user.email ?? '', user.password!);
+        return this.login1(user.email ?? '', user.password!);
      }else{
         throw new Error(response.message || 'Registration failed');
       }
@@ -64,6 +68,13 @@ export class AuthService {
     this.currentUser.set(null);
     this.router.navigate(['/login']);
     return Promise.resolve();
+  }
+
+  setUser(response:any){
+    this.tokenService.setToken(response.data.token);
+    const user: User = this.initUser(response.data);
+    this.tokenService.setUser(user);
+    this.currentUser.set(user);
   }
 
   initUser(data:any){

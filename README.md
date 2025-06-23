@@ -34,6 +34,8 @@ BoatBook is a full-stack web responsive application designed to expose a collect
 
 ## 📦 Project Structure and accessibility
 
+- Git branch name: master
+
 Boat/
 
 ├── docker-compose.yml # Docker orchestration file

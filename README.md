@@ -140,8 +140,8 @@ The Frontend uses ngx-translate for internationalization. The application suppor
  - Integrate OAuth2 authentication using a provider like Google or secure APIs using Spring Security as a resource server.
  - Refactor angular component to use store
 
-
-
+ ---
+ 
 - 👤 Author
 - Ahmed Hachmi
 - Full Stack Java Developer

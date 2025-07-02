@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {FormControlErrorsComponent} from "../../../components/forms/form-control-errors.component";
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import {LoginStore} from "./login.store";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormControlErrorsComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormControlErrorsComponent, NzCheckboxModule],
   template: `
     <div class="max-w-md mx-auto bg-white p-10 mt-20 rounded-lg shadow-md">
       <h2 class="text-2xl font-bold mb-6 text-center">{{ 'LOGIN_PAGE.TITLE' | translate }}</h2>
@@ -38,19 +39,15 @@ import {LoginStore} from "./login.store";
           >
           <form-control-errors [control]="store.passwordControl"></form-control-errors>
         </div>
+        <div class="mb-6">
+          <label nz-checkbox formControlName="rememberMe">{{ 'LOGIN_PAGE.REMEMBER_ME_LABEL' | translate }}</label>
+        </div>
         <button type="submit"
                 class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 [disabled]="!store.isFormValid() || store.loading()">
           {{ store.loading() ? 'Logging in...' : 'LOGIN_PAGE.LOGIN_BUTTON' | translate }}
         </button>
-
-        <div *ngIf="store.error()">
-          <p style="color: red">Error: {{ store.error() }}</p>
-        </div>
-
-        <div *ngIf="store.success()">
-          <p style="color: green">Login successful!</p>
-        </div>
+        
       </form>
     </div>
   `
@@ -58,13 +55,10 @@ import {LoginStore} from "./login.store";
 export class LoginComponent {
 
   constructor(
-      public store: LoginStore,
-      private translate: TranslateService
-  ) {
+      protected store: LoginStore
+  ) {}
 
-  }
-
-  async onSubmit() {
+  onSubmit() {
     this.store.submit();
   }
 }

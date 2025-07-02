@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 export class CommonService {
     constructor(private http: HttpClient) {}
 
-    getVersion(): Observable<string> {
-        return this.http.get('/api/public/version', { responseType: 'text' });
+    getVersion(): Observable<any> {
+        return this.http.get('/actuator/info');
     }
     
     getStats(): Observable<any> {

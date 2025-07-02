@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import {computed, Injectable, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
@@ -32,13 +32,13 @@ export class AuthService {
     return this.tokenService.getToken();
   }
 
-  login(email: any, password: any): Observable<ResponseData> {
+  /*login(email: any, password: any): Observable<ResponseData> {
     return this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password });
-  }
+  }*/
 
-  async login1(email: string, password: string): Promise<User> {
+  async login(email: string, password: string, rememberMe: boolean): Promise<User> {
     const response = await firstValueFrom(
-        this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password })
+        this.http.post<ResponseData>(`${this.API_URL}/login`, { email, password, rememberMe })
     );
     if (response.status !== 200) {
       throw new Error(response.message || 'Login failed failed');
@@ -57,17 +57,52 @@ export class AuthService {
   async register(user: User): Promise<User> {
       const response = await firstValueFrom(this.http.post<ResponseData>(`${this.API_URL}/register`, user));
       if(response.status===200){
-        return this.login1(user.email ?? '', user.password!);
+        return this.login(user.email ?? '', user.password!, false);
      }else{
         throw new Error(response.message || 'Registration failed');
       }
   }
 
-  logout() {
+  async logout() {
     this.tokenService.clear();
     this.currentUser.set(null);
-    this.router.navigate(['/login']);
+    const response = await firstValueFrom(
+        this.http.post<ResponseData>(`${this.API_URL}/logout`, {}, { withCredentials: true })
+    );
+    location.reload();
+    //this.router.navigate(['/login']);
     return Promise.resolve();
+  }
+
+  async refreshToken(): Promise<string> {
+    try {
+      const response = await firstValueFrom(
+          this.http.post<ResponseData>(`${this.API_URL}/refresh`, {}, { withCredentials: true })
+      );
+
+      if (response.status === 200 && response.data.token) {
+        this.tokenService.setToken(response.data.token);
+        const user: User = this.initUser(response.data);
+        this.tokenService.setUser(user);
+        this.currentUser.set(user);
+        return response.data.token;
+      }
+
+      throw new Error('No access token returned');
+    } catch (error) {
+      await this.logout();
+      throw error;
+    }
+  }
+
+  async refreshTokenOnStartup(): Promise<boolean> {
+    try {
+      await this.refreshToken();
+      return true;
+    } catch {
+      this.tokenService.clear();
+      return false;
+    }
   }
 
   setUser(response:any){
@@ -86,10 +121,10 @@ export class AuthService {
       lastName: data.lastName
     };
   }
-  
-  isAuthenticated(): boolean{
-    return !!this.tokenService.getToken();
-  }
+
+  readonly isAuthenticated = computed(() => {
+    console.log("isAuthenticated")
+    return this.currentUser() !== null; });
 
   getCurrentUser(): User | null {
     return this.currentUser();
@@ -106,7 +141,7 @@ export class AuthService {
     return this.currentUser;
   }
 
-  alertSucces(key:string){
+  alertSuccess(key:string){
     this.message.success(this.translate.instant(key), { nzDuration: 5000 });
   }
 

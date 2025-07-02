@@ -6,9 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import owt.boa.security.exceptions.AuthenticationException;
-import owt.boa.security.exceptions.EmailAlreadyTakenException;
-import owt.boa.security.exceptions.UserNotFoundException;
+import owt.boa.security.exceptions.*;
 
 /**
  * Global exception handler for the entire application.
@@ -96,6 +94,26 @@ public class GlobalExceptionHandler {
         return ApiResponseBuilder.build(
                 HttpStatus.UNAUTHORIZED, null, ex.getMessage(), "USER_AUTH.LOGIN_FAILED", true);
     }
+
+    /**
+     * Handles refresh token failures (e.g., wrong refresh token).
+     *
+     * @param ex the refresh token failure exception
+     * @return a 401 Unauthorized response
+     */
+    @ExceptionHandler(RefreshTokenInvalidException.class)
+    public ResponseEntity<ApiResponse<Object>> handleRefreshFailure(RefreshTokenInvalidException ex) {
+        return ApiResponseBuilder.build(
+                HttpStatus.UNAUTHORIZED, null, ex.getMessage(), "USER_AUTH.REFRESH_TOKEN_FAILED_INVALID", false);
+    }
+
+    @ExceptionHandler(RefreshTokenIsNullException.class)
+    public ResponseEntity<ApiResponse<Object>> handleRefreshFailure(RefreshTokenIsNullException ex) {
+        return ApiResponseBuilder.build(
+                HttpStatus.UNAUTHORIZED, null, ex.getMessage(), "USER_AUTH.REFRESH_TOKEN_FAILED_NULL", false);
+    }
+
+
 
     /**
      * Helper method to convert exception messages to internal validation message keys.

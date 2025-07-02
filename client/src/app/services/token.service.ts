@@ -9,28 +9,28 @@ export class TokenService {
     private readonly TOKEN_KEY = 'token_key';
 
     getToken(): string | null {
-        return sessionStorage.getItem(this.TOKEN_KEY);
+        return localStorage.getItem(this.TOKEN_KEY);
     }
 
     setToken(token: string): void {
-        sessionStorage.setItem(this.TOKEN_KEY, token);
+        localStorage.setItem(this.TOKEN_KEY, token);
     }
 
     removeToken(): void {
-        sessionStorage.removeItem(this.TOKEN_KEY);
+        localStorage.removeItem(this.TOKEN_KEY);
     }
 
     getUser(): User | null {
-        const userJson = sessionStorage.getItem(this.USER_KEY);
+        const userJson = localStorage.getItem(this.USER_KEY);
         return userJson ? JSON.parse(userJson) : null;
     }
 
     setUser(user: User): void {
-        sessionStorage.setItem(this.USER_KEY, JSON.stringify(user));
+        localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     }
 
     removeUser(): void {
-        sessionStorage.removeItem(this.USER_KEY);
+        localStorage.removeItem(this.USER_KEY);
     }
 
     clear(): void {

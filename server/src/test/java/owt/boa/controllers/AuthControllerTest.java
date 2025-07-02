@@ -1,6 +1,7 @@
 package owt.boa.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import owt.boa.security.AuthService;
@@ -82,7 +83,7 @@ class AuthControllerTest {
 
         LoginResponse loginResponse = new LoginResponse(1L, "test@example.com", "John", "Doe", "fake-jwt-token", owt.boa.models.enums.Role.ROLE_USER);
 
-        Mockito.when(authService.authenticate(any(LoginRequest.class)))
+        Mockito.when(authService.authenticate(any(LoginRequest.class), any(HttpServletResponse.class)))
                 .thenReturn(loginResponse);
 
         mockMvc.perform(post("/api/auth/login")

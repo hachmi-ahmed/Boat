@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import { NavbarComponent } from './components/layout/navbar.component';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from "./components/layout/footer.component";
+import {AuthService} from "./services/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -17,5 +18,17 @@ import { FooterComponent } from "./components/layout/footer.component";
   `
 })
 export class AppComponent {
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.authService.refreshTokenOnStartup().then(success => {
+      if (!success) {
+        this.router.navigate(['/login']);
+      }else{
+        this.router.navigate(['/overview']);
+      }
+    });
+  }
 
 }

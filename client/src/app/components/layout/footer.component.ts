@@ -4,6 +4,7 @@ import {CommonService} from "../../services/common.service";
 import {TranslateModule} from "@ngx-translate/core";
 
 import { ScreenService } from '../../services/screen.service';
+import {catchError, of} from "rxjs";
 
 @Component({
     selector: 'app-footer',
@@ -41,7 +42,17 @@ export class FooterComponent implements OnInit {
     constructor(private commonService: CommonService, public screen: ScreenService) {}
 
     ngOnInit(): void {
-        this.commonService.getVersion().subscribe(ver => this.version = ver);
+        this.commonService.getVersion()
+            .pipe(
+                catchError(error => {
+                    console.error('Error fetching version info', error);
+                    // You can also show a message to the user or set a default value
+                    return of({ build: { version: 'unknown' } });
+                })
+            )
+            .subscribe(infos => {
+                this.version = infos.build.version;
+            });
     }
 
 }

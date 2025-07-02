@@ -9,12 +9,13 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const user = this.authService.getCurrentUser();
-    if (!user) {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.authService.currentUserSignal.set(null);
       this.router.navigate(['/login']);
       return false;
     }
-    if(user){
+    if(token) {
       if (route.url[0]?.path === 'login' ) {
         this.router.navigate(['/overview']);
         return false;

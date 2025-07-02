@@ -8,7 +8,8 @@ export class NoAuthGuard implements CanActivate {
 
     // prevent navigation to login or registraiton page after login or registration
     canActivate(): boolean {
-        if (this.authService.getCurrentUser()) {
+        const token = this.authService.getToken();
+        if (token) {
             this.router.navigate(['/overview']);
             return false;
         }

@@ -49,6 +49,8 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('LOGIN_PAGE.EMAIL_LABEL', 'Adresse e-mail', 'Email'),
     ('LOGIN_PAGE.PASSWORD_LABEL', 'Mot de passe', 'Password'),
     ('LOGIN_PAGE.LOGIN_BUTTON', 'Se connecter', 'Login'),
+    ('LOGIN_PAGE.REMEMBER_ME_LABEL', 'Se souvenir de moi', 'Remember me'),
+
     ('REGISTER_PAGE.TITLE', 'S''inscrire', 'Register'),
     ('REGISTER_PAGE.ROLE_LABEL', 'Je suis un(e) ', 'I am a '),
     ('REGISTER_PAGE.ROLE_ADMIN', 'Administrateur', 'Admin'),
@@ -57,6 +59,8 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('REGISTER_PAGE.LAST_NAME_LABEL', 'Nom de famille', 'Lastname'),
     ('REGISTER_PAGE.EMAIL_LABEL', 'Adresse e-mail', 'Email'),
     ('REGISTER_PAGE.PASSWORD_LABEL', 'Mot de passe', 'Password'),
+    ('REGISTER_PAGE.CONFIRM_PASSWORD_LABEL', 'Confirmer le mot de passe', 'Confirm password'),
+
     ('REGISTER_PAGE.REGISTER_BUTTON', 'S''inscrire', 'Register'),
     ('REGISTER_PAGE.ERROR_ALL_FIELDS', 'Veuillez remplir tous les champs obligatoires.', 'Please fill in all required fields.'),
     ('HOME_PAGE.HERO_TITLE', 'Découvrez Notre Sélection de Bateaux', 'Discover Our Boat Selection'),
@@ -75,7 +79,6 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('ADMIN_PROFILE_PAGE.PROFILE_IMAGE_ALT', 'Profil', 'Profile'),
     ('ADMIN_PROFILE_PAGE.ROLE', 'Rôle', 'Role'),
     ('ADMIN_PROFILE_PAGE.CONTACT_INFO_TITLE', 'Informations de Contact', 'Contact Information'),
-    ('FORM.REQUIRED', 'Obligatoire', 'Required'),
     ('FOOTER_TEXT_1', 'Coder par', 'Made with'),
     ('FOOTER_TEXT_MOBILE_1', 'Coder par', 'Coded by'),
     ('FOOTER_TEXT_2', 'en Suisse par', 'in Switzerland by'),
@@ -88,22 +91,17 @@ INSERT INTO boatDb.message (code, fr, en) VALUES
     ('BOAT_DETAIL.IMAGE_URL', 'Image', 'Image'),
     ('API_BOAT.CREATED_SUCCESS', 'Bateau enregistré', 'Boat saved successfully'),
     ('API_BOAT.DELETED', 'Bateau supprimé', 'Boat deleted successfully'),
+
     ('VALIDATION.BOAT_NAME', 'Nom  invalide, Max 50 caractères', 'Invalid Name, Max 50 caracters'),
     ('VALIDATION.BOAT_DESCRIPTION', 'Description  invalide, Max 300 caractères', 'Invalid Description, Max 300 caracters'),
     ('VALIDATION.BOAT_IMAGE_URL', 'Url de l''image  invalide, Max 200 caractères', 'Invalid Image Url, Max 200 caracters'),
-    ('VALIDATION.USER_EMAIL_FORMAT', 'Format de l''E-mail est invalide', 'Invalid Email format'),
-    ('VALIDATION.USER_EMAIL_MAX', 'E-mail  invalide, Max 50 caractères', 'Invalid Email, Max 50 caracters'),
-    ('VALIDATION.USER_PASSWORD', 'Password invalide, Min 6 caratères', 'Invalid password, Min 6 carateres'),
-    ('VALIDATION.USER_FIRSTNAME', 'Prénom  invalide, Max 50 caractères', 'Invalid Firstname, Max 50 caracters'),
-    ('VALIDATION.USER_LASTNAME', 'Nom  invalide, Max 50 caractères', 'Invalid Lastname, Max 50 caracters'),
-    ('VALIDATION.BOAT_INFO_NAME', 'Max 50 caractères', 'Max 50 caracters'),
-    ('VALIDATION.BOAT_INFO_DESCRIPTION', 'Max 300 caractères', 'Max 300 caracters'),
-    ('VALIDATION.BOAT_INFO_IMAGE_URL', 'Max 200 caractères', 'Max 200 caracters'),
-    ('VALIDATION.USER_INFO_EMAIL', 'Max 50 caractères, format e-mail', 'Max 50 caracters, email format'),
-    ('VALIDATION.USER_INFO_PASSWORD', 'Min 6 caractères', 'Min 6 caracters'),
-    ('VALIDATION.USER_INFO_FIRSTNAME', 'Max 50 caractères', 'Max 50 caracters'),
-    ('VALIDATION.USER_INFO_LASTNAME', 'Max 50 caractères', 'Max 50 caracters'),
-    ('VALIDATION.UNKNOWN_FIELD', 'Erreur inconnue,veuillez contacter l''administrateur','Unknown error, please contact the administrator');
+
+    ('VALIDATION.PASSWORD_FORMAT', 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, un chiffre et un caractère spécial.', 'Password must be at least 8 characters long and include at least one uppercase letter, one number, and one special character.'),
+    ('VALIDATION.EMAIL_FORMAT', 'Format de l''E-mail est invalide', 'Invalid Email format'),
+    ('VALIDATION.PASSWORD_MISMATCH', 'Les mots de passe ne sont pas identiques', 'Password mismatch'),
+    ('VALIDATION.REQUIRED', 'Obligatoire', 'Required'),
+    ('VALIDATION.MAX_LENGTH', 'Maximum {{max}} caractères', 'Maximum {{max}} caracters'),
+    ('VALIDATION.MIN_LENGTH', 'Minimum {{min}} caractères', 'Minimum {{min}} caracters');
 
 
 

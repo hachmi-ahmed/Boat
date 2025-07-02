@@ -1,25 +1,25 @@
-import { Injectable, computed, signal } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import { Injectable,  inject } from '@angular/core';
+import {  Validators } from '@angular/forms';
+import { AuthService } from "../../../services/auth.service";
+import { Router } from "@angular/router";
+import { FormStore } from "../../../stores/form.store";
 
-@Injectable({ providedIn: 'root' })
-export class LoginStore {
-    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
+@Injectable({ providedIn: 'any' })
+export class LoginStore extends FormStore {
 
-    // 1. Reactive Form
-    form = this.fb.group({
-        email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-        password: ['', [Validators.required]],
-    });
+    private router = inject(Router);
+    private authService = inject(AuthService);
 
-    // 2. Convert reactive form states to signals
-    email = toSignal(this.form.get('email')!.valueChanges, { initialValue: '' });
-    password = toSignal(this.form.get('password')!.valueChanges, { initialValue: '' });
-    formValid = toSignal(this.form.statusChanges.pipe(), {
-        initialValue: this.form.valid ? 'VALID' : 'INVALID',
-    });
+    constructor() {
+        super();
+        this.initializeForm(
+            this.fb.group({
+                email: ['', [Validators.required]],
+                password: ['', [Validators.required]],
+                rememberMe: [false],
+            })
+        );
+    }
 
     get emailControl() {
         return this.form.get('email');
@@ -29,26 +29,29 @@ export class LoginStore {
         return this.form.get('password');
     }
 
-    // 3. Other UI state
-    loading = signal(false);
-    error = signal<string | null>(null);
-    success = signal(false);
+    get rememberMeControl() {
+        return this.form.get('rememberMe');
+    }
 
-    // 4. Public signals
-    readonly isFormValid = computed(() => this.formValid() === 'VALID');
-
-    // 5. Submit logic
-    submit() {
+    async submit() {
         if (!this.form.valid) {
-            this.error.set('Please correct the form');
+            this.alertError('COMMON.FORM_INVALID');
             return;
         }
         this.loading.set(true);
-        this.error.set(null);
         const payload = this.form.getRawValue();
-        this.authService.login(payload?.email, payload?.password).subscribe({
+        try {
+            this.loading.set(true);
+            const user = await this.authService.login(payload?.email, payload?.password, payload.rememberMe);
+            this.loading.set(false);
+            this.authService.setUser(user);
+            await this.router.navigate(['*overview']);
+        } catch (error) {
+            this.loading.set(false);
+            console.error('Login failed:', error);
+        }
+        /*this.authService.login(payload?.email, payload?.password).subscribe({
             next: (response) => {
-                this.success.set(true);
                 this.loading.set(false);
                 if (response.status !== 200) {
                     throw new Error(response.message || 'Login failed failed');
@@ -57,9 +60,8 @@ export class LoginStore {
                 this.router.navigate(['*overview']);
             },
             error: err => {
-                this.error.set(err.error?.message || 'Login failed');
                 this.loading.set(false);
             }
-        });
+        });*/
     }
 }

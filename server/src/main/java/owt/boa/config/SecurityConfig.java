@@ -43,8 +43,9 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/login",
                     "/api/auth/register",
+                    "/api/auth/refresh",
+                    "/api/auth/logout",
                     "/api/stats",
-                    "/api/public/version",
                     "/api/messages",
                     "/api/public/i18n/**",
                     "/h2-console/**",

@@ -1,5 +1,6 @@
 package owt.boa.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import owt.boa.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -46,7 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      * <li>Extracts the JWT from the header.</li>
      * <li>Extracts the username (typically email) from the JWT.</li>
      * <li>Loads user details using {@link CustomUserDetailsService#loadUserByUsername(String)}.</li>
-     * <li>Validates the token against the loaded user details using {@link JwtUtil#validateToken(String, UserDetails)}.</li>
+     * <li>Validates the token against the loaded user details using {@link JwtUtil#isTokenValid(String, UserDetails)}.</li>
      * <li>If the token is valid, extracts the user's role, formats it to uppercase (e.g., "ROLE_ADMIN"),
      * and creates a {@link UsernamePasswordAuthenticationToken}.</li>
      * <li>Sets the created authentication token in the {@link SecurityContextHolder},
@@ -72,11 +73,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
         }
         String token = header.replace("Bearer ", "");
-
-        String username = jwtUtil.extractUsername(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         try {
-            if (jwtUtil.validateToken(token, userDetails)) {
+            String username = jwtUtil.extractUsername(token);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (jwtUtil.isTokenValid(token, userDetails)) {
                 String role = jwtUtil.extractRole(token);
                 String formattedRole = role.toUpperCase();
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
@@ -84,6 +84,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
+        } catch (ExpiredJwtException ex) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         } catch (Exception e) {
             SecurityContextHolder.clearContext();
         }

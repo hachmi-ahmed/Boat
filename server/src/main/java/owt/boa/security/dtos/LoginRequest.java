@@ -8,6 +8,8 @@ public class LoginRequest{
     String email;
     @NotEmpty(message = "password is required")
     String password;
+
+    boolean rememberMe;
     Role role;
 
     public String getEmail() {
@@ -24,6 +26,14 @@ public class LoginRequest{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 
     public Role getRole() {

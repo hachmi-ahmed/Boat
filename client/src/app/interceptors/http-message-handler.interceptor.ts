@@ -1,4 +1,4 @@
-import {inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -24,18 +24,12 @@ export class HttpInterceptorService implements HttpInterceptor {
           && event.url?.indexOf('public')===-1
           && (event.body as ResponseData).notify) {
            const response = event.body as ResponseData  ;
-           if(response.status!==200){
-              this.alertError(response.key || (response.message?? response));
-           }else{
-              this.alertSuccess(response.key || (response.message?? response));
-           }
+           this.alertSuccess(response.key || (response.message?? response));
         }
       }),
     catchError(err => {
-      // Handle HTTP error (like 404, 500, etc.)
-      const message =
-        err.error?.message || err.message || 'An unknown error occurred';
-      this.alertError('COMMON.UNKNOWN');
+      const message = err.error?.key || err.key || 'COMMON.UNKNOWN';
+      if(err.notify) this.alertError(message);
       return throwError(() => err);
     })
     );
@@ -48,4 +42,5 @@ export class HttpInterceptorService implements HttpInterceptor {
   alertError(key: string): void {
     this.message.error(this.translate.instant(key), { nzDuration: 5000 });
   }
+
 }

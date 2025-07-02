@@ -4,7 +4,7 @@ import { User } from '../models/user.model';
 @Injectable({
     providedIn: 'root'
 })
-export class TokenService {
+export class StorageService {
     private readonly USER_KEY = 'user_key';
     private readonly TOKEN_KEY = 'token_key';
 

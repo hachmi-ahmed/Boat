@@ -1,10 +1,11 @@
-import {Component, effect} from '@angular/core';
+import {Component, computed, effect} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import {NzButtonComponent} from "ng-zorro-antd/button";
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {User} from "../../models/user.model";
 
 
 @Component({
@@ -45,14 +46,14 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
               </div>
             </div>
             
-            <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
+            <ng-container *ngIf="!authService.isLoggedIn(); else loggedIn">
               <a routerLink="/login" class="text-gray-700 hover:text-indigo-600 px-3 py-2">{{ 'NAVBAR.LOGIN' | translate }}</a>
               <a routerLink="/register" class="bg-indigo-600 text-white px-4 py-2 rounded-md">{{ 'NAVBAR.SIGN_UP' | translate }}</a>
             </ng-container>
 
             <ng-template #loggedIn>
               <div class="flex items-center space-x-3">
-                <ng-container *ngIf="authService.getCurrentUser()">
+                <ng-container *ngIf="authService.isLoggedIn()">
                   <button nz-button nzType="default"  [routerLink]="getDashboardPath()">{{ 'NAVBAR.DASHBOARD' | translate }}</button>
                   <a
                       [routerLink]="getProfilePath()"
@@ -140,7 +141,7 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
 })
 export class NavbarComponent {
 
-  isAdmin:boolean=false;
+  currentUser:any;
   supportedLanguages = [
     { code: 'en', name: 'English' },
     { code: 'fr', name: 'Français' }
@@ -150,10 +151,7 @@ export class NavbarComponent {
   activeDropdown:string | null = '';
 
   constructor(public authService: AuthService,private translate: TranslateService) {
-    effect(() => {
-      const user = this.authService.currentUserSignal();
-      this.isAdmin = user?.role === 'ROLE_ADMIN';
-    });
+
     translate.addLangs(['en', 'fr']);
     const browserLang = translate.getBrowserLang();
     const defaultLang = browserLang?.match(/en|fr/) ? browserLang : 'en';

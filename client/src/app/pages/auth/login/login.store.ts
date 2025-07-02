@@ -42,9 +42,8 @@ export class LoginStore extends FormStore {
         const payload = this.form.getRawValue();
         try {
             this.loading.set(true);
-            const user = await this.authService.login(payload?.email, payload?.password, payload.rememberMe);
+            await this.authService.login(payload?.email, payload?.password, payload.rememberMe);
             this.loading.set(false);
-            this.authService.setUser(user);
             await this.router.navigate(['*overview']);
         } catch (error) {
             this.loading.set(false);

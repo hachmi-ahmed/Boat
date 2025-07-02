@@ -11,11 +11,11 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const token = this.authService.getToken();
     if (!token) {
-      this.authService.currentUserSignal.set(null);
+      this.authService.clear();
       this.router.navigate(['/login']);
       return false;
-    }
-    if(token) {
+    } else {
+      this.authService.refresh();
       if (route.url[0]?.path === 'login' ) {
         this.router.navigate(['/overview']);
         return false;
